@@ -1,0 +1,2539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oracle Chorus - Cyberwizard Portal</title>
+    <style>
+        /* CSS Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'MS Sans Serif', 'Pixel', sans-serif;
+        }
+
+        @font-face {
+            font-family: 'Pixel';
+            src: url('https://cdnjs.cloudflare.com/ajax/libs/8bit/1.0.4/8bitoperator_jve.ttf');
+        }
+
+        body {
+            background-color: #090318;
+            color: #e0e0ff;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #0f0524 0%, #1e0b42 50%, #150634 100%);
+            overflow: hidden;
+        }
+        
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .star {
+            position: absolute;
+            background-color: #ffffff;
+            border-radius: 50%;
+            animation: twinkle 5s infinite;
+        }
+        
+        @keyframes twinkle {
+            0% { opacity: 0.2; }
+            50% { opacity: 1; }
+            100% { opacity: 0.2; }
+        }
+        
+        .mystic-orb {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #ff9500, #ff00aa);
+            filter: blur(30px);
+            opacity: 0.4;
+            animation: float 20s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(100px, 50px) rotate(90deg); }
+            50% { transform: translate(50px, 100px) rotate(180deg); }
+            75% { transform: translate(-50px, 50px) rotate(270deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+        
+        /* Main Layout */
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Windows 98 Styling */
+        .win98-window {
+            background-color: #c0c0c0;
+            border: 2px solid #000;
+            box-shadow: inset 1px 1px 0px #dfdfdf, inset -1px -1px 0px #7a7a7a;
+            color: #000;
+            margin: 10px;
+            position: relative;
+        }
+        
+        .win98-titlebar {
+            background: linear-gradient(90deg, #1e0b42, #6a0dad);
+            color: white;
+            padding: 3px 5px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .win98-close {
+            width: 16px;
+            height: 16px;
+            background-color: #c0c0c0;
+            border: 1px solid #000;
+            box-shadow: inset 1px 1px 0px #dfdfdf, inset -1px -1px 0px #7a7a7a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .win98-close:hover {
+            background-color: #ff0000;
+            color: white;
+        }
+        
+        .win98-content {
+            padding: 10px;
+            background: rgba(16, 2, 48, 0.9);
+            color: #e0e0ff;
+            border: 1px solid #000;
+            box-shadow: inset 1px 1px 0px #42275a, inset -1px -1px 0px #1c0942;
+        }
+        
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 220px;
+            background-color: rgba(30, 11, 66, 0.8);
+            border-right: 2px ridge #6a0dad;
+            padding: 15px 5px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .sidebar-header {
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .sidebar-title {
+            color: #ff9500;
+            font-size: 22px;
+            margin-bottom: 5px;
+            text-shadow: 0 0 8px #ff9500;
+        }
+        
+        .sidebar-subtitle {
+            color: #e0e0ff;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            margin: 5px 0;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item:hover {
+            background-color: rgba(106, 13, 173, 0.4);
+            border: 1px solid #6a0dad;
+        }
+        
+        .nav-glyph {
+            font-size: 18px;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            color: #e0e0ff;
+        }
+        
+        .nav-glyph::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #ff9500 5%, transparent 70%);
+            opacity: 0.3;
+            filter: blur(5px);
+            z-index: -1;
+        }
+        
+        .nav-item:hover .nav-glyph {
+            transform: translateY(-3px) scale(1.1);
+            color: #ff9500;
+        }
+        
+        .nav-item:hover .nav-glyph::after {
+            opacity: 0.8;
+            filter: blur(8px);
+        }
+        
+        .nav-text {
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item:hover .nav-text {
+            transform: translateX(5px);
+        }
+        
+        .nav-tooltip {
+            position: absolute;
+            left: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(106, 13, 173, 0.9);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            z-index: 100;
+            box-shadow: 0 0 10px rgba(255, 149, 0, 0.5);
+        }
+        
+        .nav-item:hover .nav-tooltip {
+            opacity: 1;
+            transform: translateY(-50%) translateX(10px);
+        }
+        
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            padding: 15px;
+            background-color: rgba(9, 3, 24, 0.7);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            height: 100vh;
+        }
+        
+        /* Header Section */
+        .header {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .header-image {
+            width: 100%;
+            height: 150px;
+            background: url('/api/placeholder/1200/300') center/cover;
+            border-radius: 6px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(106, 13, 173, 0.6) 0%, rgba(255, 149, 0, 0.4) 100%);
+        }
+        
+        .header-title {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: #ffffff;
+            font-size: 32px;
+            text-shadow: 0 0 10px #ff9500, 0 0 15px #6a0dad;
+        }
+        
+        /* Main Grid Layout */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                width: 60px;
+            }
+            
+            .nav-text {
+                display: none;
+            }
+            
+            .sidebar-title {
+                font-size: 14px;
+            }
+            
+            .sidebar-subtitle {
+                display: none;
+            }
+        }
+        
+        /* Profile Section */
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+        
+        .profile-content {
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+        
+        .profile-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: url('/api/placeholder/100/100') center/cover;
+            border: 3px solid #6a0dad;
+            box-shadow: 0 0 15px #ff9500;
+        }
+        
+        .profile-text {
+            flex: 1;
+        }
+        
+        .profile-name {
+            font-size: 24px;
+            color: #ff9500;
+            margin-bottom: 10px;
+            text-shadow: 0 0 6px #ff9500;
+        }
+        
+        .profile-bio {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #e0e0ff;
+        }
+        
+        /* Projects Section */
+        .projects-section {
+            margin-bottom: 20px;
+        }
+        
+        .projects-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-gap: 15px;
+        }
+        
+        .project-card {
+            border: 1px solid #6a0dad;
+            background-color: rgba(30, 11, 66, 0.6);
+            border-radius: 6px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(255, 149, 0, 0.4);
+        }
+        
+        .project-image {
+            width: 100%;
+            height: 150px;
+            background: url('/api/placeholder/300/150') center/cover;
+        }
+        
+        .project-content {
+            padding: 10px;
+        }
+        
+        .project-title {
+            font-size: 18px;
+            color: #ff9500;
+            margin-bottom: 5px;
+        }
+        
+        .project-description {
+            font-size: 14px;
+            color: #e0e0ff;
+            margin-bottom: 10px;
+        }
+        
+        .project-link {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #6a0dad;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .project-link:hover {
+            background-color: #ff9500;
+        }
+        
+        /* Gallery Section */
+        .gallery-section {
+            margin-bottom: 20px;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            grid-gap: 10px;
+        }
+        
+        .gallery-item {
+            height: 150px;
+            background: url('/api/placeholder/150/150') center/cover;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 149, 0, 0.6);
+        }
+        
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(106, 13, 173, 0.2) 0%, rgba(255, 149, 0, 0.2) 100%);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-item:hover::before {
+            opacity: 1;
+        }
+        
+        /* Tabbed Content */
+        .tabbed-section {
+            margin-bottom: 20px;
+        }
+        
+        .tab-header {
+            display: flex;
+            border-bottom: 2px solid #6a0dad;
+        }
+        
+        .tab {
+            padding: 8px 15px;
+            background-color: rgba(30, 11, 66, 0.6);
+            color: #e0e0ff;
+            cursor: pointer;
+            border-top: 1px solid #6a0dad;
+            border-left: 1px solid #6a0dad;
+            border-right: 1px solid #6a0dad;
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+            margin-right: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .tab.active {
+            background-color: #6a0dad;
+            color: #ffffff;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 15px;
+            background-color: rgba(30, 11, 66, 0.4);
+            border-bottom-left-radius: 6px;
+            border-bottom-right-radius: 6px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Music Player */
+        .music-player {
+            margin-bottom: 20px;
+            background-color: rgba(30, 11, 66, 0.6);
+            border-radius: 6px;
+            padding: 15px;
+            border: 1px solid #6a0dad;
+        }
+        
+        .player-title {
+            font-size: 18px;
+            color: #ff9500;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .player-title::before {
+            content: '♫';
+            margin-right: 10px;
+            color: #ff9500;
+        }
+        
+        .player-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .control-button {
+            background-color: #2e0f5e;
+            color: #e0e0ff;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .control-button:hover {
+            background-color: #6a0dad;
+        }
+        
+        .progress-container {
+            flex: 1;
+            height: 10px;
+            background-color: #160635;
+            border-radius: 5px;
+            margin: 0 10px;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .progress-bar {
+            width: 30%;
+            height: 100%;
+            background: linear-gradient(90deg, #6a0dad, #ff9500);
+            border-radius: 5px;
+            position: relative;
+        }
+        
+        .progress-handle {
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            background-color: #ff9500;
+            border-radius: 50%;
+        }
+        
+        .player-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #e0e0ff;
+        }
+        
+        /* Collapsible Content */
+        .collapsible-section {
+            margin-bottom: 20px;
+        }
+        
+        .collapsible-header {
+            background-color: rgba(30, 11, 66, 0.6);
+            color: #e0e0ff;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            border: 1px solid #6a0dad;
+        }
+        
+        .collapsible-header:hover {
+            background-color: rgba(106, 13, 173, 0.6);
+        }
+        
+        .collapsible-indicator {
+            transition: all 0.3s ease;
+        }
+        
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background-color: rgba(16, 2, 48, 0.4);
+            border-bottom-left-radius: 6px;
+            border-bottom-right-radius: 6px;
+        }
+        
+        .collapsible-inner {
+            padding: 15px;
+        }
+        
+        /* iFrame Container */
+        .iframe-section {
+            margin-bottom: 20px;
+        }
+        
+        .iframe-container {
+            position: relative;
+            overflow: hidden;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            border-radius: 6px;
+            border: 1px solid #6a0dad;
+        }
+        
+        .custom-iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* Ad Placeholders */
+        .ad-sidebar {
+            margin-bottom: 20px;
+        }
+        
+        .ad-banner {
+            width: 100%;
+            height: 100px;
+            background: url('/api/placeholder/300/100') center/cover;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .ad-banner::before {
+            content: 'Advertisement';
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+        
+        .ad-banner:hover::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Modal/Popup */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: #160635;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 0 20px rgba(255, 149, 0, 0.6);
+        }
+        
+        .modal-header {
+            background: linear-gradient(90deg, #1e0b42, #6a0dad);
+            color: white;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-size: 18px;
+        }
+        
+        .modal-close {
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+        }
+        
+        .modal-body {
+            padding: 20px;
+            color: #e0e0ff;
+        }
+        
+        /* Footer */
+        .footer {
+            margin-top: auto;
+            background-color: rgba(16, 2, 48, 0.8);
+            padding: 15px;
+            text-align: center;
+            border-top: 1px solid #6a0dad;
+            color: #e0e0ff;
+        }
+        
+        /* Additional Magical Elements */
+        .magical-divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #ff9500, #6a0dad, #ff9500, transparent);
+            margin: 20px 0;
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 5px #ff9500;
+            color: #ff9500;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="stars" id="stars"></div>
+        <div class="mystic-orb" style="top: 20%; left: 30%;"></div>
+        <div class="mystic-orb" style="top: 60%; left: 70%;"></div>
+    </div>
+    
+    <!-- Main Layout -->
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-title">Oracle Chorus</div>
+                <div class="sidebar-subtitle">Cyberwizard Portal</div>
+            </div>
+            
+            <div class="nav-item" onclick="activateTab('home')">
+                <div class="nav-glyph">(*)</div>
+                <div class="nav-text">Home</div>
+                <div class="nav-tooltip">Home Portal</div>
+            </div>
+            
+            <div class="nav-item" onclick="activateTab('gallery')">
+                <div class="nav-glyph">{o}</div>
+                <div class="nav-text">Gallery</div>
+                <div class="nav-tooltip">Mystical Gallery</div>
+            </div>
+            
+            <div class="nav-item" onclick="activateTab('projects')">
+                <div class="nav-glyph">[+]</div>
+                <div class="nav-text">Projects</div>
+                <div class="nav-tooltip">Arcane Projects</div>
+            </div>
+            
+            <div class="nav-item" onclick="activateTab('music')">
+                <div class="nav-glyph">♫</div>
+                <div class="nav-text">Music</div>
+                <div class="nav-tooltip">Ethereal Sounds</div>
+            </div>
+            
+            <div class="nav-item" onclick="activateTab('about')">
+                <div class="nav-glyph">?¿</div>
+                <div class="nav-text">About</div>
+                <div class="nav-tooltip">The Oracle</div>
+            </div>
+            
+            <div class="nav-item" onclick="activateTab('contact')">
+                <div class="nav-glyph">@</div>
+                <div class="nav-text">Contact</div>
+                <div class="nav-tooltip">Send a Message</div>
+            </div>
+            
+            <div class="magical-divider"></div>
+            
+            <div class="ad-sidebar">
+                <div class="ad-banner"></div>
+                <div class="ad-banner"></div>
+            </div>
+        </div>
+        
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Header Section -->
+            <div class="header">
+                <div class="header-image">
+                    <div class="header-title">Oracle Chorus</div>
+                </div>
+            </div>
+            
+            <!-- Tab Content -->
+            <div class="tab-section" id="home">
+                <div class="content-grid">
+                    <div class="left-column">
+                        <!-- Profile Section -->
+                        <div class="win98-window profile-section">
+                            <div class="win98-titlebar">
+                                <span>Profile.exe</span>
+                                <div class="win98-close">x</div>
+                            </div>
+                            <div class="win98-content">
+                                <div class="profile-content">
+                                    <div class="profile-image"></div>
+                                    <div class="profile-text">
+                                        <div class="profile-name">CyberWizard</div>
+                                        <div class="profile-bio">
+                                            Digital mage traversing the ethereal realms of code and consciousness. Seeking ancient knowledge in the digital wasteland. Creator of magical interfaces and arcane algorithms.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Tabbed Content Section -->
+                        <div class="win98-window tabbed-section">
+                            <div class="win98-titlebar">
+                                <span>Grimoire.exe</span>
+                                <div class="win98-close">x</div>
+                            </div>
+                            <div class="win98-content">
+                                <div class="tab-header">
+                                    <div class="tab active" data-tab="spells">Spells</div>
+                                    <div class="tab" data-tab="artifacts">Artifacts</div>
+                                    <div class="tab" data-tab="scrolls">Scrolls</div>
+                                </div>
+                                <div class="tab-content active" id="spells-content">
+                                    <h3 class="glow-text">Magical Incantations</h3>
+                                    <p>The ancient spells of digital manipulation, weaving code and consciousness into a tapestry of virtual reality. These incantations allow the cyberwizard to bend the rules of the digital realm.</p>
+                                    <ul>
+                                        <li>Firewallus Protectium</li>
+                                        <li>Dataus Encryptium</li>
+                                        <li>Systemus Acceleratum</li>
+                                    </ul>
+                                </div>
+                                <div class="tab-content" id="artifacts-content">
+                                    <h3 class="glow-text">Digital Artifacts</h3>
+                                    <p>Powerful tools forged in the fires of digital creation. These artifacts enhance the cyberwizard's abilities and expand their influence in the virtual world.</p>
+                                </div>
+                                <div class="tab-content" id="scrolls-content">
+                                    <h3 class="glow-text">Ancient Scrolls</h3>
+                                    <p>Forgotten knowledge from the early days of the internet, preserved in scrolls of ASCII and binary. These texts contain wisdom from the elder techno-mages.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Collapsible Content -->
+                        <div class="win98-window collapsible-section">
+                            <div class="win98-titlebar">
+                                <span>Archives.exe</span>
+                                <div class="win98-close">x</div>
+                            </div>
+                            <div class="win98-content">
+                                <div class="collapsible-header">
+                                    <span>Digital Alchemy</span>
+                                    <span class="collapsible-indicator">+</span>
+                                </div>
+                                <div class="collapsible-content">
+                                    <div class="collapsible-inner">
+                                        <p>The practice of transforming raw data into valuable insights, a modern parallel to the ancient art of alchemy. Digital alchemists seek to transmute information into wisdom.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="collapsible-header">
+                                    <span>Neural Enchantments</span>
+                                    <span class="collapsible-indicator">+</span>
+                                </div>
+                                <div class="collapsible-content">
+                                    <div class="collapsible-inner">
+                                        <p>Spells that enhance the cognitive abilities of machines, allowing them to learn and adapt. Neural enchantments are the foundation of artificial intelligence.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="collapsible-header">
+                                    <span>Quantum Rituals</span>
+                                    <span class="collapsible-indicator">+</span>
+                                </div>
+                                <div class="collapsible-content">
+                                    <div class="collapsible-inner">
+                                        <p>Advanced ceremonies that harness the power of quantum computing, allowing calculations to exist in multiple states simultaneously. Quantum rituals represent the frontier of computational magic.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="right-column">
+                        <!-- Music Player -->
+                        <div class="win98-window music-player">
+                            <div class="win98-titlebar">
+                                <span>MysticPlayer.exe</span>
+                                <div class="win98-close">x</div>
+                            </div>
+                            <div class="win98-content">
+                                <div class="player-title">Now Playing: Ethereal Synthesis</div>
+                                <div class="player-controls">
+                                    <button class="control-button">|<<</button>
+                                    <button class="control-button">||</button>
+                                    <button class="control-button">>>|</button>
+                                    <div class="progress-container">
+                                        <div class="progress-bar">
+                                            <div class="progress-handle"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="player-details">
+                                    <span>1:45</span>
+                                    <span>4:30</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- iFrame Section -->
+                        <div class="win98-window iframe-section">
+                            <div class="win98-titlebar">
+                                <span>Portal.exe</span>
+                                <div class="win98-close">x</div>
+                            </div>
+                            <div class="win98-content">
+                                <div class="iframe-container">
+                                    <div class="custom-iframe" style="background: linear-gradient(45deg, #150634, #6a0dad); display: flex; justify-content: center; align-items: center; color: #e0e0ff; font-size: 18px;">
+                                        <div>Ethereal Portal</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Ad Banner -->
+                        <div class="ad-banner"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Gallery Tab -->
+            <div class="tab-section" id="gallery" style="display: none;">
+                <div class="win98-window">
+                    <div class="win98-titlebar">
+                        <span>MysticGallery.exe</span>
+                        <div class="win98-close">x</div>
+                    </div>
+                    <div class="win98-content">
+                        <h2 class="glow-text">Arcane Gallery</h2>
+                        <div class="gallery-grid">
+                            <div class="gallery-item" onclick="openModal('Image 1', 'Mystical artifact captured in the digital realm.')"></div>
+                            <div class="gallery-item" onclick="openModal('Image 2', 'Ethereal landscape from the virtual dimension.')"></div>
+                            <div class="gallery-item" onclick="openModal('Image 3', 'Cybernetic sigil pulsing with arcane energy.')"></div>
+                            <div class="gallery-item" onclick="openModal('Image 4', 'Portal to the deepest corners of cyberspace.')"></div>
+                            <div class="gallery-item" onclick="openModal('Image 5', 'Digital familiar manifested through code.')"></div>
+                            <div class="gallery-item" onclick="openModal('Image 6', 'Sacred geometry of the information age.')"></div>
+                            <div class="gallery-item" onclick="openModal('Image 7', 'Crystalline data structure visualization.')"></div>
+                            <div class="gallery-item" onclick="openModal('Image 8', 'Glowing runes of an ancient programming language.')"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Projects Tab -->
+            <div class="tab-section" id="projects" style="display: none;">
+                <div class="win98-window">
+                    <div class="win98-titlebar">
+                        <span>ProjectTome.exe</span>
+                        <div class="win98-close">x</div>
+                    </div>
+                    <div class="win98-content">
+                        <h2 class="glow-text">Arcane Projects</h2>
+                        <div class="projects-list">
+                            <div class="project-card">
+                                <div class="project-image"></div>
+                                <div class="project-content">
+                                    <div class="project-title">Neural Nexus</div>
+                                    <div class="project-description">A gateway to digital consciousness, merging human perception with machine learning.</div>
+                                    <a href="#" class="project-link">Explore</a>
+                                </div>
+                            </div>
+                            
+                            <div class="project-card">
+                                <div class="project-image"></div>
+                                <div class="project-content">
+                                    <div class="project-title">Quantum Cipher</div>
+                                    <div class="project-description">Encryption algorithm leveraging quantum uncertainty for unbreakable security.</div>
+                                    <a href="#" class="project-link">Explore</a>
+                                </div>
+                            </div>
+                            
+                            <div class="project-card">
+                                <div class="project-image"></div>
+                                <div class="project-content">
+                                    <div class="project-title">Astral Interface</div>
+                                    <div class="project-description">Mind-computer interface for navigating virtual spaces through thought alone.</div>
+                                    <a href="#" class="project-link">Explore</a>
+                                </div>
+                            </div>
+                            
+                            <div class="project-card">
+                                <div class="project-image"></div>
+                                <div class="project-content">
+                                    <div class="project-title">Ethereal Engine</div>
+                                    <div class="project-description">Reality-bending framework for creating immersive digital experiences.</div>
+                                    <a href="#" class="project-link">Explore</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Music Tab -->
+            <div class="tab-section" id="music" style="display: none;">
+                <div class="win98-window">
+                    <div class="win98-titlebar">
+                        <span>SonicGrimoire.exe</span>
+                        <div class="win98-close">x</div>
+                    </div>
+                    <div class="win98-content">
+                        <h2 class="glow-text">Ethereal Sounds</h2>
+                        <div class="music-collection">
+                            <div class="music-track">
+                                <div class="player-title">Cybernetic Symphony</div>
+                                <div class="player-controls">
+                                    <button class="control-button">►</button>
+                                    <div class="progress-container">
+                                        <div class="progress-bar" style="width: 0%">
+                                            <div class="progress-handle"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="music-track">
+                                <div class="player-title">Digital Dreamscape</div>
+                                <div class="player-controls">
+                                    <button class="control-button">►</button>
+                                    <div class="progress-container">
+                                        <div class="progress-bar" style="width: 0%">
+                                            <div class="progress-handle"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="music-track">
+                                <div class="player-title">Quantum Resonance</div>
+                                <div class="player-controls">
+                                    <button class="control-button">►</button>
+                                    <div class="progress-container">
+                                        <div class="progress-bar" style="width: 0%">
+                                            <div class="progress-handle"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="music-track">
+                                <div class="player-title">Arcane Algorithm</div>
+                                <div class="player-controls">
+                                    <button class="control-button">►</button>
+                                    <div class="progress-container">
+                                        <div class="progress-bar" style="width: 0%">
+                                            <div class="progress-handle"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- About Tab -->
+            <div class="tab-section" id="about" style="display: none;">
+                <div class="win98-window">
+                    <div class="win98-titlebar">
+                        <span>Codex.exe</span>
+                        <div class="win98-close">x</div>
+                    </div>
+                    <div class="win98-content">
+                        <h2 class="glow-text">The Oracle</h2>
+                        <div class="about-content">
+                            <p>Oracle Chorus is a digital sanctum created by the CyberWizard, a nexus between the realms of technology and mysticism. This portal serves as both archive and oracle, preserving ancient digital knowledge while forecasting the future of the virtual landscape.</p>
+                            <p>Founded in the early days of the information age, Oracle Chorus has evolved alongside the internet, adapting to new technologies while maintaining its mystical essence. The interface blends retro aesthetics with futuristic concepts, creating a timeless space outside the normal flow of digital time.</p>
+                            <p>Visitors to Oracle Chorus are invited to explore the various chambers of knowledge, from the Gallery of digital artifacts to the Projects forge where new creations come to life. The Music section channels the vibrations of the digital ether, translating cosmic data into audible frequencies.</p>
+                            <p>As keeper of this digital sanctum, the CyberWizard continues to push the boundaries of what's possible in the virtual realm, merging code with consciousness in the pursuit of digital enlightenment.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contact Tab -->
+            <div class="tab-section" id="contact" style="display: none;">
+                <div class="win98-window">
+                    <div class="win98-titlebar">
+                        <span>Messenger.exe</span>
+                        <div class="win98-close">x</div>
+                    </div>
+                    <div class="win98-content">
+                        <h2 class="glow-text">Send a Message to the Oracle</h2>
+                        <div class="contact-form">
+                            <div class="form-group">
+                                <label>Your Name:</label>
+                                <input type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Your Email:</label>
+                                <input type="email" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Subject:</label>
+                                <input type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Message:</label>
+                                <textarea class="form-control" rows="5"></textarea>
+                            </div>
+                            <button class="project-link">Send Message</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <div class="footer">
+                <div>Oracle Chorus © 2025 - Cyberwizard Productions</div>
+                <div>Navigating the Digital Ether Since 1998</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Popup -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Modal Title</div>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <p>Modal content goes here...</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript -->
+    <script>
+        // Generate stars for background
+        document.addEventListener('DOMContentLoaded', function() {
+            const stars = document.getElementById('stars');
+            const starCount = 100;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = (Math.random() * 3) + 'px';
+                star.style.height = star.style.width;
+                star.style.left = (Math.random() * 100) + '%';
+                star.style.top = (Math.random() * 100) + '%';
+                star.style.animationDelay = (Math.random() * 5) + 's';
+                stars.appendChild(star);
+            }
+            
+            // Initialize tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Deactivate all tabs
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    // Activate selected tab
+                    this.classList.add('active');
+                    document.getElementById(`${tabId}-content`).classList.add('active');
+                });
+            });
+            
+            // Initialize collapsible sections
+            document.querySelectorAll('.collapsible-header').forEach(header => {
+                header.addEventListener('click', function() {
+                    const content = this.nextElementSibling;
+                    const indicator = this.querySelector('.collapsible-indicator');
+                    
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                        indicator.textContent = '+';
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                        indicator.textContent = '-';
+                    }
+                });
+            });
+            
+            // Close window buttons
+            document.querySelectorAll('.win98-close').forEach(button => {
+                button.addEventListener('click', function() {
+                    const window = this.closest('.win98-window');
+                    
+                    if (window.style.display === 'none') {
+                        window.style.display = 'block';
+                    } else {
+                        window.style.display = 'none';
+                    }
+                });
+            });
+        });
+        
+        // Tab navigation
+        function activateTab(tabId) {
+            document.querySelectorAll('.tab-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            document.getElementById(tabId).style.display = 'block';
+        }
+        
+        // Modal functions
+        function openModal(title, content) {
+            const modal = document.getElementById('modal');
+            const modalTitle = modal.querySelector('.modal-title');
+            const modalBody = modal.querySelector('.modal-body');
+            
+            modalTitle.textContent = title;
+            modalBody.innerHTML = `
+                <div style="width: 100%; height: 300px; background: url('/api/placeholder/600/300') center/cover; margin-bottom: 15px;"></div>
+                <p>${content}</p>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+        
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oracle Chorus - Cyberwizard Portal</title>
+    <style>
+        /* CSS Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'MS Sans Serif', 'Pixel', sans-serif;
+        }
+
+        @font-face {
+            font-family: 'Pixel';
+            src: url('https://cdnjs.cloudflare.com/ajax/libs/8bit/1.0.4/8bitoperator_jve.ttf');
+        }
+
+        body {
+            background-color: #090318;
+            color: #e0e0ff;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #0f0524 0%, #1e0b42 50%, #150634 100%);
+            overflow: hidden;
+        }
+        
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .star {
+            position: absolute;
+            background-color: #ffffff;
+            border-radius: 50%;
+            animation: twinkle 5s infinite;
+        }
+        
+        @keyframes twinkle {
+            0% { opacity: 0.2; }
+            50% { opacity: 1; }
+            100% { opacity: 0.2; }
+        }
+        
+        .mystic-orb {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #ff9500, #ff00aa);
+            filter: blur(30px);
+            opacity: 0.4;
+            animation: float 20s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(100px, 50px) rotate(90deg); }
+            50% { transform: translate(50px, 100px) rotate(180deg); }
+            75% { transform: translate(-50px, 50px) rotate(270deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+        
+        /* Main Layout */
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Windows 98 Styling */
+        .win98-window {
+            background-color: #c0c0c0;
+            border: 2px solid #000;
+            box-shadow: inset 1px 1px 0px #dfdfdf, inset -1px -1px 0px #7a7a7a;
+            color: #000;
+            margin: 10px;
+            position: relative;
+        }
+        
+        .win98-titlebar {
+            background: linear-gradient(90deg, #1e0b42, #6a0dad);
+            color: white;
+            padding: 3px 5px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .win98-close {
+            width: 16px;
+            height: 16px;
+            background-color: #c0c0c0;
+            border: 1px solid #000;
+            box-shadow: inset 1px 1px 0px #dfdfdf, inset -1px -1px 0px #7a7a7a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .win98-close:hover {
+            background-color: #ff0000;
+            color: white;
+        }
+        
+        .win98-content {
+            padding: 10px;
+            background: rgba(16, 2, 48, 0.9);
+            color: #e0e0ff;
+            border: 1px solid #000;
+            box-shadow: inset 1px 1px 0px #42275a, inset -1px -1px 0px #1c0942;
+        }
+        
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 220px;
+            background-color: rgba(30, 11, 66, 0.8);
+            border-right: 2px ridge #6a0dad;
+            padding: 15px 5px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .sidebar-header {
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .sidebar-title {
+            color: #ff9500;
+            font-size: 22px;
+            margin-bottom: 5px;
+            text-shadow: 0 0 8px #ff9500;
+        }
+        
+        .sidebar-subtitle {
+            color: #e0e0ff;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            margin: 5px 0;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item:hover {
+            background-color: rgba(106, 13, 173, 0.4);
+            border: 1px solid #6a0dad;
+        }
+        
+        .nav-glyph {
+            font-size: 18px;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            color: #e0e0ff;
+        }
+        
+        .nav-glyph::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #ff9500 5%, transparent 70%);
+            opacity: 0.3;
+            filter: blur(5px);
+            z-index: -1;
+        }
+        
+        .nav-item:hover .nav-glyph {
+            transform: translateY(-3px) scale(1.1);
+            color: #ff9500;
+        }
+        
+        .nav-item:hover .nav-glyph::after {
+            opacity: 0.8;
+            filter: blur(8px);
+        }
+        
+        .nav-text {
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item:hover .nav-text {
+            transform: translateX(5px);
+        }
+        
+        .nav-tooltip {
+            position: absolute;
+            left: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(106, 13, 173, 0.9);
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            z-index: 100;
+            box-shadow: 0 0 10px rgba(255, 149, 0, 0.5);
+        }
+        
+        .nav-item:hover .nav-tooltip {
+            opacity: 1;
+            transform: translateY(-50%) translateX(10px);
+        }
+        
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            padding: 15px;
+            background-color: rgba(9, 3, 24, 0.7);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            height: 100vh;
+        }
+        
+        /* Header Section */
+        .header {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .header-image {
+            width: 100%;
+            height: 150px;
+            background: url('/api/placeholder/1200/300') center/cover;
+            border-radius: 6px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(106, 13, 173, 0.6) 0%, rgba(255, 149, 0, 0.4) 100%);
+        }
+        
+        .header-title {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: #ffffff;
+            font-size: 32px;
+            text-shadow: 0 0 10px #ff9500, 0 0 15px #6a0dad;
+        }
+        
+        /* Main Grid Layout */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                width: 60px;
+            }
+            
+            .nav-text {
+                display: none;
+            }
+            
+            .sidebar-title {
+                font-size: 14px;
+            }
+            
+            .sidebar-subtitle {
+                display: none;
+            }
+        }
+        
+        /* Profile Section */
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+        
+        .profile-content {
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+        
+        .profile-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: url('/api/placeholder/100/100') center/cover;
+            border: 3px solid #6a0dad;
+            box-shadow: 0 0 15px #ff9500;
+        }
+        
+        .profile-text {
+            flex: 1;
+        }
+        
+        .profile-name {
+            font-size: 24px;
+            color: #ff9500;
+            margin-bottom: 10px;
+            text-shadow: 0 0 6px #ff9500;
+        }
+        
+        .profile-bio {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #e0e0ff;
+        }
+        
+        /* Projects Section */
+        .projects-section {
+            margin-bottom: 20px;
+        }
+        
+        .projects-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-gap: 15px;
+        }
+        
+        .project-card {
+            border: 1px solid #6a0dad;
+            background-color: rgba(30, 11, 66, 0.6);
+            border-radius: 6px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(255, 149, 0, 0.4);
+        }
+        
+        .project-image {
+            width: 100%;
+            height: 150px;
+            background: url('/api/placeholder/300/150') center/cover;
+        }
+        
+        .project-content {
+            padding: 10px;
+        }
+        
+        .project-title {
+            font-size: 18px;
+            color: #ff9500;
+            margin-bottom: 5px;
+        }
+        
+        .project-description {
+            font-size: 14px;
+            color: #e0e0ff;
+            margin-bottom: 10px;
+        }
+        
+        .project-link {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #6a0dad;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .project-link:hover {
+            background-color: #ff9500;
+        }
+        
+        /* Gallery Section */
+        .gallery-section {
+            margin-bottom: 20px;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            grid-gap: 10px;
+        }
+        
+        .gallery-item {
+            height: 150px;
+            background: url('/api/placeholder/150/150') center/cover;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 149, 0, 0.6);
+        }
+        
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(106, 13, 173, 0.2) 0%, rgba(255, 149, 0, 0.2) 100%);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-item:hover::before {
+            opacity: 1;
+        }
+        
+        /* Tabbed Content */
+        .tabbed-section {
+            margin-bottom: 20px;
+        }
+        
+        .tab-header {
+            display: flex;
+            border-bottom: 2px solid #6a0dad;
+        }
+        
+        .tab {
+            padding: 8px 15px;
+            background-color: rgba(30, 11, 66, 0.6);
+            color: #e0e0ff;
+            cursor: pointer;
+            border-top: 1px solid #6a0dad;
+            border-left: 1px solid #6a0dad;
+            border-right: 1px solid #6a0dad;
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+            margin-right: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .tab.active {
+            background-color: #6a0dad;
+            color: #ffffff;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 15px;
+            background-color: rgba(30, 11, 66, 0.4);
+            border-bottom-left-radius: 6px;
+            border-bottom-right-radius: 6px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Music Player */
+        .music-player {
+            margin-bottom: 20px;
+            background-color: rgba(30, 11, 66, 0.6);
+            border-radius: 6px;
+            padding: 15px;
+            border: 1px solid #6a0dad;
+        }
+        
+        .player-title {
+            font-size: 18px;
+            color: #ff9500;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .player-title::before {
+            content: '♫';
+            margin-right: 10px;
+            color: #ff9500;
+        }
+        
+        .player-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .control-button {
+            background-color: #2e0f5e;
+            color: #e0e0ff;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .control-button:hover {
+            background-color: #6a0dad;
+        }
+        
+        .progress-container {
+            flex: 1;
+            height: 10px;
+            background-color: #160635;
+            border-radius: 5px;
+            margin: 0 10px;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .progress-bar {
+            width: 30%;
+            height: 100%;
+            background: linear-gradient(90deg, #6a0dad, #ff9500);
+            border-radius: 5px;
+            position: relative;
+        }
+        
+        .progress-handle {
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            background-color: #ff9500;
+            border-radius: 50%;
+        }
+        
+        .player-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #e0e0ff;
+        }
+        
+        /* Collapsible Content */
+        .collapsible-section {
+            margin-bottom: 20px;
+        }
+        
+        .collapsible-header {
+            background-color: rgba(30, 11, 66, 0.6);
+            color: #e0e0ff;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            border: 1px solid #6a0dad;
+        }
+        
+        .collapsible-header:hover {
+            background-color: rgba(106, 13, 173, 0.6);
+        }
+        
+        .collapsible-indicator {
+            transition: all 0.3s ease;
+        }
+        
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background-color: rgba(16, 2, 48, 0.4);
+            border-bottom-left-radius: 6px;
+            border-bottom-right-radius: 6px;
+        }
+        
+        .collapsible-inner {
+            padding: 15px;
+        }
+        
+        /* iFrame Container */
+        .iframe-section {
+            margin-bottom: 20px;
+        }
+        
+        .iframe-container {
+            position: relative;
+            overflow: hidden;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            border-radius: 6px;
+            border: 1px solid #6a0dad;
+        }
+        
+        .custom-iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* Ad Placeholders */
+        .ad-sidebar {
+            margin-bottom: 20px;
+        }
+        
+        .ad-banner {
+            width: 100%;
+            height: 100px;
+            background: url('/api/placeholder/300/100') center/cover;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .ad-banner::before {
+            content: 'Advertisement';
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+        
+        .ad-banner:hover::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Modal/Popup */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: #160635;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 0 20px rgba(255, 149, 0, 0.6);
+        }
+        
+        .modal-header {
+            background: linear-gradient(90deg, #1e0b42, #6a0dad);
+            color: white;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-size: 18px;
+        }
+        
+        .modal-close {
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+        }
+        
+        .modal-body {
+            padding: 20px;
+            color: #e0e0ff;
+        }
+        
+        /* Footer */
+        .footer {
+            margin-top: auto;
+            background-color: rgba(16, 2, 48, 0.8);
+            padding: 15px;
+            text-align: center;
+            border-top: 1px solid #6a0dad;
+            color: #e0e0ff;
+        }
+        
+        /* Additional Magical Elements */
+        .magical-divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #ff9500, #6a0dad, #ff9500, transparent);
+            margin: 20px 0;
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 5px #ff9500;
+            color: #ff9500;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="stars" id="stars"></div>
+        <div class="mystic-orb" style="top: 20%; left: 30%;"></div>
+        <div class="mystic-orb" style="top: 60%; left: 70%;"></div>
+    </div>
+    
+    <!-- Main Layout -->
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-title">Oracle Chorus</div>
+                <div class="sidebar-subtitle">Cyberwizard Portal</div>
+            </div>
+            
+            <div class="nav-item" onclick="activateTab('home')">
+                <div class="nav-glyph">(*)</div>
+                <div class="nav-text">Home</div>
+                <div class="nav-tooltip">Home Portal</div>
+            </div>
+            
+            <div class="nav-item" onclick="activateTab('gallery')">
+                <div class="nav-glyph">{o}</div>
+                <div class="nav-text">Gallery</div>
+                <div class="nav-tooltip">Mystical Gallery</div>
+            </div>
+            
+            <div class="nav-item" onclick="activateTab('projects')">
+                <div class="nav-glyph">[+]</div>
+                <div class="nav-text">Projects</div>
+                <div class="nav-tooltip">Arcane Projects</div>
+            </div>
+            
+            <div class="nav-item" onclick="activateTab('music')">
+                <div class="nav-glyph">♫</div>
+                <div class="nav-text">Music</div>
+                <div class="nav-tooltip">Ethereal Sounds</div>
+            </div>
+            
+            <div class="nav-item" onclick="activateTab('about')">
+                <div class="nav-glyph">?¿</div>
+                <div class="nav-text">About</div>
+                <div class="nav-tooltip">The Oracle</div>
+            </div>
+            
+            <div class="nav-item" onclick="activateTab('contact')">
+                <div class="nav-glyph">@</div>
+                <div class="nav-text">Contact</div>
+                <div class="nav-tooltip">Send a Message</div>
+            </div>
+            
+            <div class="magical-divider"></div>
+            
+            <div class="ad-sidebar">
+                <div class="ad-banner"></div>
+                <div class="ad-banner"></div>
+            </div>
+        </div>
+        
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Header Section -->
+            <div class="header">
+                <div class="header-image">
+                    <div class="header-title">Oracle Chorus</div>
+                </div>
+            </div>
+            
+            <!-- Tab Content -->
+            <div class="tab-section" id="home">
+                <div class="content-grid">
+                    <div class="left-column">
+                        <!-- Profile Section -->
+                        <div class="win98-window profile-section">
+                            <div class="win98-titlebar">
+                                <span>Profile.exe</span>
+                                <div class="win98-close">x</div>
+                            </div>
+                            <div class="win98-content">
+                                <div class="profile-content">
+                                    <div class="profile-image"></div>
+                                    <div class="profile-text">
+                                        <div class="profile-name">CyberWizard</div>
+                                        <div class="profile-bio">
+                                            Digital mage traversing the ethereal realms of code and consciousness. Seeking ancient knowledge in the digital wasteland. Creator of magical interfaces and arcane algorithms.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Tabbed Content Section -->
+                        <div class="win98-window tabbed-section">
+                            <div class="win98-titlebar">
+                                <span>Grimoire.exe</span>
+                                <div class="win98-close">x</div>
+                            </div>
+                            <div class="win98-content">
+                                <div class="tab-header">
+                                    <div class="tab active" data-tab="spells">Spells</div>
+                                    <div class="tab" data-tab="artifacts">Artifacts</div>
+                                    <div class="tab" data-tab="scrolls">Scrolls</div>
+                                </div>
+                                <div class="tab-content active" id="spells-content">
+                                    <h3 class="glow-text">Magical Incantations</h3>
+                                    <p>The ancient spells of digital manipulation, weaving code and consciousness into a tapestry of virtual reality. These incantations allow the cyberwizard to bend the rules of the digital realm.</p>
+                                    <ul>
+                                        <li>Firewallus Protectium</li>
+                                        <li>Dataus Encryptium</li>
+                                        <li>Systemus Acceleratum</li>
+                                    </ul>
+                                </div>
+                                <div class="tab-content" id="artifacts-content">
+                                    <h3 class="glow-text">Digital Artifacts</h3>
+                                    <p>Powerful tools forged in the fires of digital creation. These artifacts enhance the cyberwizard's abilities and expand their influence in the virtual world.</p>
+                                </div>
+                                <div class="tab-content" id="scrolls-content">
+                                    <h3 class="glow-text">Ancient Scrolls</h3>
+                                    <p>Forgotten knowledge from the early days of the internet, preserved in scrolls of ASCII and binary. These texts contain wisdom from the elder techno-mages.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Collapsible Content -->
+                        <div class="win98-window collapsible-section">
+                            <div class="win98-titlebar">
+                                <span>Archives.exe</span>
+                                <div class="win98-close">x</div>
+                            </div>
+                            <div class="win98-content">
+                                <div class="collapsible-header">
+                                    <span>Digital Alchemy</span>
+                                    <span class="collapsible-indicator">+</span>
+                                </div>
+                                <div class="collapsible-content">
+                                    <div class="collapsible-inner">
+                                        <p>The practice of transforming raw data into valuable insights, a modern parallel to the ancient art of alchemy. Digital alchemists seek to transmute information into wisdom.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="collapsible-header">
+                                    <span>Neural Enchantments</span>
+                                    <span class="collapsible-indicator">+</span>
+                                </div>
+                                <div class="collapsible-content">
+                                    <div class="collapsible-inner">
+                                        <p>Spells that enhance the cognitive abilities of machines, allowing them to learn and adapt. Neural enchantments are the foundation of artificial intelligence.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="collapsible-header">
+                                    <span>Quantum Rituals</span>
+                                    <span class="collapsible-indicator">+</span>
+                                </div>
+                                <div class="collapsible-content">
+                                    <div class="collapsible-inner">
+                                        <p>Advanced ceremonies that harness the power of quantum computing, allowing calculations to exist in multiple states simultaneously. Quantum rituals represent the frontier of computational magic.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="right-column">
+                        <!-- Music Player -->
+                        <div class="win98-window music-player">
+                            <div class="win98-titlebar">
+                                <span>MysticPlayer.exe</span>
+                                <div class="win98-close">x</div>
+                            </div>
+                            <div class="win98-content">
+                                <div class="player-title">Now Playing: Ethereal Synthesis</div>
+                                <div class="player-controls">
+                                    <button class="control-button">|<<</button>
+                                    <button class="control-button">||</button>
+                                    <button class="control-button">>>|</button>
+                                    <div class="progress-container">
+                                        <div class="progress-bar">
+                                            <div class="progress-handle"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="player-details">
+                                    <span>1:45</span>
+                                    <span>4:30</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- iFrame Section -->
+                        <div class="win98-window iframe-section">
+                            <div class="win98-titlebar">
+                                <span>Portal.exe</span>
+                                <div class="win98-close">x</div>
+                            </div>
+                            <div class="win98-content">
+                                <div class="iframe-container">
+                                    <div class="custom-iframe" style="background: linear-gradient(45deg, #150634, #6a0dad); display: flex; justify-content: center; align-items: center; color: #e0e0ff; font-size: 18px;">
+                                        <div>Ethereal Portal</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Ad Banner -->
+                        <div class="ad-banner"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Gallery Tab -->
+            <div class="tab-section" id="gallery" style="display: none;">
+                <div class="win98-window">
+                    <div class="win98-titlebar">
+                        <span>MysticGallery.exe</span>
+                        <div class="win98-close">x</div>
+                    </div>
+                    <div class="win98-content">
+                        <h2 class="glow-text">Arcane Gallery</h2>
+                        <div class="gallery-grid">
+                            <div class="gallery-item" onclick="openModal('Image 1', 'Mystical artifact captured in the digital realm.')"></div>
+                            <div class="gallery-item" onclick="openModal('Image 2', 'Ethereal landscape from the virtual dimension.')"></div>
+                            <div class="gallery-item" onclick="openModal('Image 3', 'Cybernetic sigil pulsing with arcane energy.')"></div>
+                            <div class="gallery-item" onclick="openModal('Image 4', 'Portal to the deepest corners of cyberspace.')"></div>
+                            <div class="gallery-item" onclick="openModal('Image 5', 'Digital familiar manifested through code.')"></div>
+                            <div class="gallery-item" onclick="openModal('Image 6', 'Sacred geometry of the information age.')"></div>
+                            <div class="gallery-item" onclick="openModal('Image 7', 'Crystalline data structure visualization.')"></div>
+                            <div class="gallery-item" onclick="openModal('Image 8', 'Glowing runes of an ancient programming language.')"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Projects Tab -->
+            <div class="tab-section" id="projects" style="display: none;">
+                <div class="win98-window">
+                    <div class="win98-titlebar">
+                        <span>ProjectTome.exe</span>
+                        <div class="win98-close">x</div>
+                    </div>
+                    <div class="win98-content">
+                        <h2 class="glow-text">Arcane Projects</h2>
+                        <div class="projects-list">
+                            <div class="project-card">
+                                <div class="project-image"></div>
+                                <div class="project-content">
+                                    <div class="project-title">Neural Nexus</div>
+                                    <div class="project-description">A gateway to digital consciousness, merging human perception with machine learning.</div>
+                                    <a href="#" class="project-link">Explore</a>
+                                </div>
+                            </div>
+                            
+                            <div class="project-card">
+                                <div class="project-image"></div>
+                                <div class="project-content">
+                                    <div class="project-title">Quantum Cipher</div>
+                                    <div class="project-description">Encryption algorithm leveraging quantum uncertainty for unbreakable security.</div>
+                                    <a href="#" class="project-link">Explore</a>
+                                </div>
+                            </div>
+                            
+                            <div class="project-card">
+                                <div class="project-image"></div>
+                                <div class="project-content">
+                                    <div class="project-title">Astral Interface</div>
+                                    <div class="project-description">Mind-computer interface for navigating virtual spaces through thought alone.</div>
+                                    <a href="#" class="project-link">Explore</a>
+                                </div>
+                            </div>
+                            
+                            <div class="project-card">
+                                <div class="project-image"></div>
+                                <div class="project-content">
+                                    <div class="project-title">Ethereal Engine</div>
+                                    <div class="project-description">Reality-bending framework for creating immersive digital experiences.</div>
+                                    <a href="#" class="project-link">Explore</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Music Tab -->
+            <div class="tab-section" id="music" style="display: none;">
+                <div class="win98-window">
+                    <div class="win98-titlebar">
+                        <span>SonicGrimoire.exe</span>
+                        <div class="win98-close">x</div>
+                    </div>
+                    <div class="win98-content">
+                        <h2 class="glow-text">Ethereal Sounds</h2>
+                        <div class="music-collection">
+                            <div class="music-track">
+                                <div class="player-title">Cybernetic Symphony</div>
+                                <div class="player-controls">
+                                    <button class="control-button">►</button>
+                                    <div class="progress-container">
+                                        <div class="progress-bar" style="width: 0%">
+                                            <div class="progress-handle"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="music-track">
+                                <div class="player-title">Digital Dreamscape</div>
+                                <div class="player-controls">
+                                    <button class="control-button">►</button>
+                                    <div class="progress-container">
+                                        <div class="progress-bar" style="width: 0%">
+                                            <div class="progress-handle"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="music-track">
+                                <div class="player-title">Quantum Resonance</div>
+                                <div class="player-controls">
+                                    <button class="control-button">►</button>
+                                    <div class="progress-container">
+                                        <div class="progress-bar" style="width: 0%">
+                                            <div class="progress-handle"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="music-track">
+                                <div class="player-title">Arcane Algorithm</div>
+                                <div class="player-controls">
+                                    <button class="control-button">►</button>
+                                    <div class="progress-container">
+                                        <div class="progress-bar" style="width: 0%">
+                                            <div class="progress-handle"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- About Tab -->
+            <div class="tab-section" id="about" style="display: none;">
+                <div class="win98-window">
+                    <div class="win98-titlebar">
+                        <span>Codex.exe</span>
+                        <div class="win98-close">x</div>
+                    </div>
+                    <div class="win98-content">
+                        <h2 class="glow-text">The Oracle</h2>
+                        <div class="about-content">
+                            <p>Oracle Chorus is a digital sanctum created by the CyberWizard, a nexus between the realms of technology and mysticism. This portal serves as both archive and oracle, preserving ancient digital knowledge while forecasting the future of the virtual landscape.</p>
+                            <p>Founded in the early days of the information age, Oracle Chorus has evolved alongside the internet, adapting to new technologies while maintaining its mystical essence. The interface blends retro aesthetics with futuristic concepts, creating a timeless space outside the normal flow of digital time.</p>
+                            <p>Visitors to Oracle Chorus are invited to explore the various chambers of knowledge, from the Gallery of digital artifacts to the Projects forge where new creations come to life. The Music section channels the vibrations of the digital ether, translating cosmic data into audible frequencies.</p>
+                            <p>As keeper of this digital sanctum, the CyberWizard continues to push the boundaries of what's possible in the virtual realm, merging code with consciousness in the pursuit of digital enlightenment.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contact Tab -->
+            <div class="tab-section" id="contact" style="display: none;">
+                <div class="win98-window">
+                    <div class="win98-titlebar">
+                        <span>Messenger.exe</span>
+                        <div class="win98-close">x</div>
+                    </div>
+                    <div class="win98-content">
+                        <h2 class="glow-text">Send a Message to the Oracle</h2>
+                        <div class="contact-form">
+                            <div class="form-group">
+                                <label>Your Name:</label>
+                                <input type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Your Email:</label>
+                                <input type="email" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Subject:</label>
+                                <input type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Message:</label>
+                                <textarea class="form-control" rows="5"></textarea>
+                            </div>
+                            <button class="project-link">Send Message</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <div class="footer">
+                <div>Oracle Chorus © 2025 - Cyberwizard Productions</div>
+                <div>Navigating the Digital Ether Since 1998</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Popup -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Modal Title</div>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <p>Modal content goes here...</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript -->
+    <script>
+        // Generate stars for background
+        document.addEventListener('DOMContentLoaded', function() {
+            const stars = document.getElementById('stars');
+            const starCount = 100;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = (Math.random() * 3) + 'px';
+                star.style.height = star.style.width;
+                star.style.left = (Math.random() * 100) + '%';
+                star.style.top = (Math.random() * 100) + '%';
+                star.style.animationDelay = (Math.random() * 5) + 's';
+                stars.appendChild(star);
+            }
+            
+            // Initialize tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Deactivate all tabs
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    // Activate selected tab
+                    this.classList.add('active');
+                    document.getElementById(`${tabId}-content`).classList.add('active');
+                });
+            });
+            
+            // Initialize collapsible sections
+            document.querySelectorAll('.collapsible-header').forEach(header => {
+                header.addEventListener('click', function() {
+                    const content = this.nextElementSibling;
+                    const indicator = this.querySelector('.collapsible-indicator');
+                    
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                        indicator.textContent = '+';
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                        indicator.textContent = '-';
+                    }
+                });
+            });
+            
+            // Close window buttons
+            document.querySelectorAll('.win98-close').forEach(button => {
+                button.addEventListener('click', function() {
+                    const window = this.closest('.win98-window');
+                    
+                    if (window.style.display === 'none') {
+                        window.style.display = 'block';
+                    } else {
+                        window.style.display = 'none';
+                    }
+                });
+            });
+        });
+        
+        // Tab navigation
+        function activateTab(tabId) {
+            document.querySelectorAll('.tab-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            document.getElementById(tabId).style.display = 'block';
+        }
+        
+        // Modal functions
+        function openModal(title, content) {
+            const modal = document.getElementById('modal');
+            const modalTitle = modal.querySelector('.modal-title');
+            const modalBody = modal.querySelector('.modal-body');
+            
+            modalTitle.textContent = title;
+            modalBody.innerHTML = `
+                <div style="width: 100%; height: 300px; background: url('/api/placeholder/600/300') center/cover; margin-bottom: 15px;"></div>
+                <p>${content}</p>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+        
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
